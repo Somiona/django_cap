@@ -4,7 +4,6 @@ from datetime import datetime
 from typing import Any
 
 import pytest
-from django.conf import settings
 from django.utils import timezone
 from pytest import CaptureFixture
 

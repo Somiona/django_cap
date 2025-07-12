@@ -56,6 +56,7 @@ dev = [
     "vpdb>=1.0.0",
     "django-cors-headers>=4.7.0",
     "pdm>=2.25.4",
+    "pre-commit>=4.2.0",
 ]
 test = [
     "pytest>=8.4.1",
@@ -99,11 +100,12 @@ python = "./.venv"
 
 [tool.ruff]
 target-version = "py311"
+extend-exclude = ["*/migrations/*"]
 
 [tool.ruff.lint]
 select = [
     "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
+    "W",  # pycodestyle wargitnings
     "F",  # pyflakes
     "I",  # isort
     "B",  # flake8-bugbear

@@ -16,6 +16,18 @@ repos:
       - id: debug-statements
       - id: detect-private-key
 
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.7.20
+    hooks:
+      - id: uv-lock
+
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    # uv version.
+    rev: 0.7.20
+    hooks:
+      - id: uv-export
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.12.2
     hooks:
@@ -23,8 +35,10 @@ repos:
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
 
-  - repo: https://github.com/pdm-project/pdm
-    rev: 2.25.2
+  - repo: local
     hooks:
-      - id: pdm-check
-        args: [--check-lock-file]
+      - id: ty
+        name: ty check
+        entry: uvx ty check django_cap --python .venv
+        language: system
+        files: ^django_cap/

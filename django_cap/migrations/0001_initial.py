@@ -4,39 +4,61 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Challenge',
+            name="Challenge",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('token', models.CharField(db_index=True, max_length=50, unique=True)),
-                ('challenge_data', models.JSONField(help_text='Challenge configuration object with {c: count, s: size, d: difficulty}')),
-                ('expires', models.DateTimeField(db_index=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("token", models.CharField(db_index=True, max_length=50, unique=True)),
+                (
+                    "challenge_data",
+                    models.JSONField(
+                        help_text="Challenge configuration object with {c: count, s: size, d: difficulty}"
+                    ),
+                ),
+                ("expires", models.DateTimeField(db_index=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'db_table': 'django_cap_challenges',
-                'ordering': ['-created_at'],
+                "db_table": "django_cap_challenges",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='Token',
+            name="Token",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('token_hash', models.CharField(db_index=True, max_length=128, unique=True)),
-                ('token_id', models.CharField(db_index=True, max_length=16)),
-                ('expires', models.DateTimeField(db_index=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "token_hash",
+                    models.CharField(db_index=True, max_length=128, unique=True),
+                ),
+                ("token_id", models.CharField(db_index=True, max_length=16)),
+                ("expires", models.DateTimeField(db_index=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'db_table': 'django_cap_tokens',
-                'ordering': ['-created_at'],
+                "db_table": "django_cap_tokens",
+                "ordering": ["-created_at"],
             },
         ),
     ]
