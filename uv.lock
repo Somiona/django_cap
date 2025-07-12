@@ -1,10 +1,6 @@
 version = 1
 revision = 2
 requires-python = ">=3.11"
-resolution-markers = [
-    "python_full_version >= '3.12'",
-    "python_full_version < '3.12'",
-]
 
 [[package]]
 name = "annotated-types"
@@ -31,20 +27,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/86/72/cd9b395f25e290e633655a100af28cb253e4393396264a98bd5f5951d50f/backports_tarfile-1.2.0.tar.gz", hash = "sha256:d75e02c268746e1b8144c278978b6e98e85de6ad16f8e4b0844a154557eca991", size = 86406, upload-time = "2024-05-28T17:01:54.731Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b9/fa/123043af240e49752f1c4bd24da5053b6bd00cad78c2be53c0d1e8b975bc/backports.tarfile-1.2.0-py3-none-any.whl", hash = "sha256:77e284d754527b01fb1e6fa8a1afe577858ebe4e9dad8919e34c862cb399bc34", size = 30181, upload-time = "2024-05-28T17:01:53.112Z" },
-]
-
-[[package]]
-name = "build"
-version = "1.2.2.post1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "colorama", marker = "os_name == 'nt'" },
-    { name = "packaging" },
-    { name = "pyproject-hooks" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/7d/46/aeab111f8e06793e4f0e421fcad593d547fb8313b50990f31681ee2fb1ad/build-1.2.2.post1.tar.gz", hash = "sha256:b36993e92ca9375a219c99e606a122ff365a760a2d4bba0caa09bd5278b608b7", size = 46701, upload-time = "2024-10-06T17:22:25.251Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/84/c2/80633736cd183ee4a62107413def345f7e6e3c01563dbca1417363cf957e/build-1.2.2.post1-py3-none-any.whl", hash = "sha256:1d61c0887fa860c01971625baae8bdd338e517b836a2f70dd1f7aa3a6b2fc5b5", size = 22950, upload-time = "2024-10-06T17:22:23.299Z" },
 ]
 
 [[package]]
@@ -261,7 +243,6 @@ unfold = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "build" },
     { name = "django-cors-headers" },
     { name = "django-debug-toolbar" },
     { name = "django-types" },
@@ -286,21 +267,20 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cryptography", specifier = ">=45.0.5" },
-    { name = "django", specifier = ">=5.2.4" },
-    { name = "django-ninja", marker = "extra == 'ninja'", specifier = ">=1.4.3" },
-    { name = "django-unfold", marker = "extra == 'unfold'", specifier = ">=0.62.0" },
-    { name = "djangorestframework", marker = "extra == 'drf'", specifier = ">=3.16.0" },
+    { name = "cryptography", specifier = ">=45.0" },
+    { name = "django", specifier = ">=5.0" },
+    { name = "django-ninja", marker = "extra == 'ninja'", specifier = ">=1.4" },
+    { name = "django-unfold", marker = "extra == 'unfold'", specifier = ">=0.62" },
+    { name = "djangorestframework", marker = "extra == 'drf'", specifier = ">=3.16" },
 ]
 provides-extras = ["ninja", "drf", "unfold"]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "build", specifier = ">=1.2.2.post1" },
     { name = "django-cors-headers", specifier = ">=4.7.0" },
-    { name = "django-debug-toolbar", specifier = ">=5.2.0" },
-    { name = "django-types", specifier = ">=0.21.0" },
-    { name = "djlint", specifier = ">=1.36.4" },
+    { name = "django-debug-toolbar" },
+    { name = "django-types" },
+    { name = "djlint", specifier = ">=1.36" },
     { name = "ruff", specifier = ">=0.12.2" },
     { name = "timeit-decorator", specifier = ">=2.0.8" },
     { name = "twine", specifier = ">=6.1.0" },
@@ -308,7 +288,7 @@ dev = [
     { name = "vpdb", specifier = ">=1.0.0" },
 ]
 optional = [
-    { name = "django-ninja", specifier = ">=1.4.3" },
+    { name = "django-ninja", specifier = ">=1.4" },
     { name = "django-unfold", specifier = ">=0.62.0" },
     { name = "djangorestframework", specifier = ">=3.16.0" },
 ]
@@ -470,7 +450,7 @@ name = "importlib-metadata"
 version = "8.7.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp", marker = "python_full_version < '3.12'" },
+    { name = "zipp" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/76/66/650a33bd90f786193e4de4b3ad86ea60b53c89b669a5c7be931fac31cdb0/importlib_metadata-8.7.0.tar.gz", hash = "sha256:d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000", size = 56641, upload-time = "2025-04-27T15:29:01.736Z" }
 wheels = [
@@ -770,15 +750,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/b0/77/a5b8c569bf593b0140bde72ea885a803b82086995367bf2037de0159d924/pygments-2.19.2.tar.gz", hash = "sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887", size = 4968631, upload-time = "2025-06-21T13:39:12.283Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/c7/21/705964c7812476f378728bdf590ca4b771ec72385c533964653c68e86bdc/pygments-2.19.2-py3-none-any.whl", hash = "sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b", size = 1225217, upload-time = "2025-06-21T13:39:07.939Z" },
-]
-
-[[package]]
-name = "pyproject-hooks"
-version = "1.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e7/82/28175b2414effca1cdac8dc99f76d660e7a4fb0ceefa4b4ab8f5f6742925/pyproject_hooks-1.2.0.tar.gz", hash = "sha256:1e859bd5c40fae9448642dd871adf459e5e2084186e8d2c2a79a824c970da1f8", size = 19228, upload-time = "2024-09-29T09:24:13.293Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/bd/24/12818598c362d7f300f18e74db45963dbcb85150324092410c8b49405e42/pyproject_hooks-1.2.0-py3-none-any.whl", hash = "sha256:9e5c6bfa8dcc30091c74b0cf803c81fdd29d94f01992a7707bc97babb1141913", size = 10216, upload-time = "2024-09-29T09:24:11.978Z" },
 ]
 
 [[package]]
