@@ -32,12 +32,12 @@ jobs:
 
       - name: Run linting
         run: |
-          pdm lint
-          pdm type-check
+          uv run ruff check
+          uv run ty check
 
       - name: Run tests
         run: |
-          pdm test
+          uv run pytest
 
   update_cov:
     runs-on: ubuntu-latest
@@ -59,7 +59,7 @@ jobs:
       - name: Update coverage
         run: |
           uv sync
-          pdm coverage
+          uv run pytest --cov --cov-report json
 
       - name: Update Coverage Badge
         # GitHub actions: default branch variable

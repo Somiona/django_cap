@@ -30,12 +30,12 @@ jobs:
 
       - name: Run linting
         run: |
-          pdm lint
-          pdm type-check
+          uv run ruff check
+          uv run ty check
 
       - name: Run tests
         run: |
-          pdm test
+          uv run pytest
 
       - name: Build package
         run: uv build
