@@ -1,7 +1,8 @@
 [![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)](https://github.com/somiona/django_cap/actions/workflows/test.yml)
 [![cov](https://somiona.github.io/django_cap/badges/coverage.svg)](https://github.com/somiona/django_cap/actions)
-[![release](https://img.shields.io/github/v/release/somiona/django_cap)](https://github.com/Somiona/django_cap/releases)
-[![downloads](https://img.shields.io/pypi/dm/https://pypi.org/project/django_cap/)](https://pypi.org/project/django_cap/)
+[![release](https://img.shields.io/github/v/tag/somiona/django_cap?label=version)](https://github.com/Somiona/django_cap/releases)
+[![downloads](https://img.shields.io/pypi/dm/django-cap)](https://pypi.org/project/django_cap/)
+[![PyPI - Status](https://img.shields.io/pypi/status/django-cap)](https://pypi.org/project/django-cap/)
 ## Django Cap
 This is a implementation of [Cap.js](https://capjs.js.org/) Server for Django, which provides challenge generation and verification for PoW (Proof of Work) captcha. See
 
@@ -9,17 +10,17 @@ This is a implementation of [Cap.js](https://capjs.js.org/) Server for Django, w
 ### Installation
 To install the package, simply run:
 ```bash
-pip install django_cap
+pip install django-cap
 ```
 
 If you want to use the Django Ninja integration, you can install it with:
 ```bash
-pip install django_cap[ninja]
+pip install django-cap[ninja]
 ```
 
 Or if you want to use the Django Rest Framework integration, you can install it with:
 ```bash
-pip install django_cap[drf]
+pip install django-cap[drf]
 ```
 
 Note that currently, only ninja integration and vanilla Django Json views are implemented, DRF integration will be added shortly.
