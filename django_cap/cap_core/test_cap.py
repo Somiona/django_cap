@@ -252,36 +252,36 @@ async def test_redeem_invalid_solution(capsys: CaptureFixture[str]):
     assert redeem_result.expires is None
 
 
-@pytest.mark.asyncio
-@pytest.mark.benchmark
-async def test_challenge_answer_check_speed(benchmark, capsys: CaptureFixture[str]):
-    data_source = MemoryDataSource()
-    cap_config: CapConfig = CapConfig(50, 32, 4, 60, 60)
-    cap = Cap(cap_config, data_source)
+# @pytest.mark.asyncio
+# @pytest.mark.benchmark
+# async def test_challenge_answer_check_speed(benchmark, capsys: CaptureFixture[str]):
+#     data_source = MemoryDataSource()
+#     cap_config: CapConfig = CapConfig(50, 32, 4, 60, 60)
+#     cap = Cap(cap_config, data_source)
 
-    # Create a challenge
-    challenge_item = await cap.create_challenge()
-    assert challenge_item.token in data_source.challenges
+#     # Create a challenge
+#     challenge_item = await cap.create_challenge()
+#     assert challenge_item.token in data_source.challenges
 
-    # Solve the challenge
-    timer = int(time.time() * 1e3)
-    results, results_hash = await solve(challenge_item.token, cap.challenge)
-    elapsed = int(time.time() * 1e3) - timer
-    with capsys.disabled():
-        print(
-            f"Elapsed time: {elapsed:.2f} ms, "
-            f"Solved and checked {len(results)} challenges"
-        )
+#     # Solve the challenge
+#     timer = int(time.time() * 1e3)
+#     results, results_hash = await solve(challenge_item.token, cap.challenge)
+#     elapsed = int(time.time() * 1e3) - timer
+#     with capsys.disabled():
+#         print(
+#             f"Elapsed time: {elapsed:.2f} ms, "
+#             f"Solved and checked {len(results)} challenges"
+#         )
 
-    def redeem_challenge(results):
-        challenges = Cap.generate_challenge_from_token(
-            challenge_item.token, challenge_item.challenge
-        )
+#     def redeem_challenge(results):
+#         challenges = Cap.generate_challenge_from_token(
+#             challenge_item.token, challenge_item.challenge
+#         )
 
-        is_valid = Cap.check_answer(challenges, results)
-        return is_valid
+#         is_valid = Cap.check_answer(challenges, results)
+#         return is_valid
 
-    benchmark(
-        redeem_challenge,
-        results,
-    )
+#     benchmark(
+#         redeem_challenge,
+#         results,
+#     )

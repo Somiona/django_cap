@@ -1,4 +1,4 @@
-![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)
+[![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)](https://github.com/somiona/django_cap/actions/workflows/test.yml)
 [![cov](https://somiona.github.io/django_cap/badges/coverage.svg)](https://github.com/somiona/django_cap/actions)
 
 ## Django Cap
