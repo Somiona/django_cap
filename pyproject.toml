@@ -55,6 +55,7 @@ dev = [
     "ty>=0.0.1a14",
     "vpdb>=1.0.0",
     "django-cors-headers>=4.7.0",
+    "pdm>=2.25.4",
 ]
 test = [
     "pytest>=8.4.1",
