@@ -1,0 +1,151 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Django Cap API",
+    "version": "1.0.0",
+    "description": "Proof of Work (PoW) Captcha API based on cap.js"
+  },
+  "paths": {
+    "/cap/v1/challenge": {
+      "post": {
+        "operationId": "apps_django_cap_ninja_api_views_create_challenge",
+        "summary": "Create Challenge",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChallengeResponse" }
+              }
+            }
+          }
+        },
+        "description": "Create a new challenge.\n\nThis endpoint generates a new proof-of-work challenge with configurable parameters."
+      }
+    },
+    "/cap/v1/redeem": {
+      "post": {
+        "operationId": "apps_django_cap_ninja_api_views_redeem_challenge",
+        "summary": "Redeem Challenge",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/RedeemResponse" }
+              }
+            }
+          }
+        },
+        "description": "Redeem a challenge solution.\n\nSubmit the solution to a challenge to get a valid token.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SolutionRequest" }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/cap/v1/validate": {
+      "post": {
+        "operationId": "apps_django_cap_ninja_api_views_validate_token",
+        "summary": "Validate Token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ValidateResponse" }
+              }
+            }
+          }
+        },
+        "description": "Validate a token.\n\nCheck if a token is valid and optionally keep it for future use.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ValidateRequest" }
+            }
+          },
+          "required": true
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ChallengeResponse": {
+        "properties": {
+          "challenge": {
+            "additionalProperties": { "type": "integer" },
+            "title": "Challenge",
+            "type": "object"
+          },
+          "token": { "title": "Token", "type": "string" },
+          "expires": { "title": "Expires", "type": "integer" }
+        },
+        "required": ["challenge", "token", "expires"],
+        "title": "ChallengeResponse",
+        "type": "object"
+      },
+      "RedeemResponse": {
+        "properties": {
+          "success": { "title": "Success", "type": "boolean" },
+          "message": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Message"
+          },
+          "token": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Token"
+          },
+          "expires": {
+            "anyOf": [{ "type": "integer" }, { "type": "null" }],
+            "title": "Expires"
+          }
+        },
+        "required": ["success"],
+        "title": "RedeemResponse",
+        "type": "object"
+      },
+      "SolutionRequest": {
+        "properties": {
+          "token": { "title": "Token", "type": "string" },
+          "solutions": {
+            "items": { "type": "integer" },
+            "title": "Solutions",
+            "type": "array"
+          }
+        },
+        "required": ["token", "solutions"],
+        "title": "SolutionRequest",
+        "type": "object"
+      },
+      "ValidateResponse": {
+        "properties": { "success": { "title": "Success", "type": "boolean" } },
+        "required": ["success"],
+        "title": "ValidateResponse",
+        "type": "object"
+      },
+      "ValidateRequest": {
+        "properties": {
+          "token": { "title": "Token", "type": "string" },
+          "keepToken": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "default": false,
+            "title": "Keeptoken"
+          }
+        },
+        "required": ["token"],
+        "title": "ValidateRequest",
+        "type": "object"
+      }
+    }
+  },
+  "servers": []
+}
