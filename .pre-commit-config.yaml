@@ -39,6 +39,6 @@ repos:
     hooks:
       - id: ty
         name: ty check
-        entry: uvx ty check django_cap --python .venv
+        entry: uv run ty check django_cap --python .venv
         language: system
         files: ^django_cap/

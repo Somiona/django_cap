@@ -57,6 +57,7 @@ dev = [
     "django-cors-headers>=4.7.0",
     "pdm>=2.25.4",
     "pre-commit>=4.2.0",
+    "pytest-cov>=6.2.1",
 ]
 test = [
     "pytest>=8.4.1",
@@ -83,6 +84,7 @@ dev = "uv run manage.py runserver"
 migrate = "uv run manage.py migrate"
 createsuperuser = "uv run manage.py createsuperuser"
 shell = "uv run manage.py shell"
+coverage = "uv run pytest --cov --cov-report json"
 
 [tool.pdm.build]
 includes = ["django_cap"]
