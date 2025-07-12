@@ -1,7 +1,7 @@
 from django.urls import include, path
 
-from . import views
-from .django_app_settings import (
+from django_cap import views
+from django_cap.django_app_settings import (
     DRF_API_ENABLED,  # type: ignore
     NINJA_API_ENABLED,  # type: ignore
 )

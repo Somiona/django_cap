@@ -1,8 +1,8 @@
 import asyncio
 import hashlib
 
-from .cap import Cap
-from .utils import ChallengeType
+from django_cap.cap_core.cap import Cap
+from django_cap.cap_core.utils import ChallengeType
 
 
 async def solve(

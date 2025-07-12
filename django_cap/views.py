@@ -3,8 +3,8 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 
-from .cap_core.cap import Solution
-from .django_adapter import django_cap
+from django_cap.cap_core.cap import Solution
+from django_cap.django_adapter import django_cap
 
 
 @require_http_methods(["POST"])

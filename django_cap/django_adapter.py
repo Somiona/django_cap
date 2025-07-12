@@ -9,9 +9,9 @@ from typing import Any
 
 from django.utils import timezone
 
-from .cap_core.cap import Cap, CapConfig, ChallengeItem, Solution
-from .cap_core.utils import ChallengeType, DataSource
-from .django_app_settings import (
+from django_cap.cap_core.cap import Cap, CapConfig, ChallengeItem, Solution
+from django_cap.cap_core.utils import ChallengeType, DataSource
+from django_cap.django_app_settings import (
     CHALLENGE_COUNT,  # type: ignore
     CHALLENGE_DIFFICULTY,  # type: ignore
     CHALLENGE_EXPIRES_S,  # type: ignore
@@ -19,7 +19,7 @@ from .django_app_settings import (
     CLEANUP_INTERVAL_S,  # type: ignore
     TOKEN_EXPIRES_S,  # type: ignore
 )
-from .models import Challenge, Token
+from django_cap.models import Challenge, Token
 
 logger = logging.getLogger(__name__)
 

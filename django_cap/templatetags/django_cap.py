@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 
-from ..django_app_settings import WIDGET_URL  # type: ignore
+from django_cap.django_app_settings import WIDGET_URL  # type: ignore
 
 register = template.Library()
 

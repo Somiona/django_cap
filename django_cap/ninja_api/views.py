@@ -11,9 +11,9 @@ from django.http import HttpRequest
 from ninja import NinjaAPI, Schema
 from ninja.errors import ValidationError
 
-from ..cap_core.cap import Solution
-from ..django_adapter import django_cap
-from ..django_app_settings import NINJA_API_ENABLE_DOCS  # type: ignore
+from django_cap.cap_core.cap import Solution
+from django_cap.django_adapter import django_cap
+from django_cap.django_app_settings import NINJA_API_ENABLE_DOCS  # type: ignore
 
 # Create a separate API instance for cap functionality
 cap_api = NinjaAPI(

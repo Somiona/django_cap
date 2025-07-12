@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .django_app_settings import (
+from django_cap.django_app_settings import (
     DJANGO_ADMIN_ENABLED,  # type: ignore
     UNFOLD_ADMIN_ENABLED,  # type: ignore
 )
-from .models import Challenge, Token
+from django_cap.models import Challenge, Token
 
 if DJANGO_ADMIN_ENABLED:
     if UNFOLD_ADMIN_ENABLED:
@@ -13,7 +13,7 @@ if DJANGO_ADMIN_ENABLED:
         from django.contrib.admin import ModelAdmin
 
     @admin.register(Challenge)
-    class ChallengeAdmin(ModelAdmin):
+    class ChallengeAdmin(ModelAdmin):  # type: ignore
         list_display = ["token", "expires", "is_expired", "created_at"]
         list_filter = ["expires", "created_at"]
         search_fields = ["token"]
@@ -27,7 +27,7 @@ if DJANGO_ADMIN_ENABLED:
         is_expired.short_description = "Expired"  # type: ignore
 
     @admin.register(Token)
-    class TokenAdmin(ModelAdmin):
+    class TokenAdmin(ModelAdmin):  # type: ignore
         list_display = ["token_id", "expires", "is_expired", "created_at"]
         list_filter = ["expires", "created_at"]
         search_fields = ["token_id", "token_hash"]

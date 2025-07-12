@@ -8,9 +8,9 @@ from django.conf import settings
 from django.utils import timezone
 from pytest import CaptureFixture
 
-from .cap import Cap
-from .solver import solve
-from .utils import (
+from django_cap.cap_core.cap import Cap
+from django_cap.cap_core.solver import solve
+from django_cap.cap_core.utils import (
     CapConfig,
     ChallengeItem,
     ChallengeType,
@@ -18,8 +18,6 @@ from .utils import (
     RedeemResult,
     Solution,
 )
-
-settings.configure()
 
 
 class MemoryDataSource(DataSource):

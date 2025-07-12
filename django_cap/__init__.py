@@ -8,5 +8,3 @@ way to implement proof-of-work challenges for spam prevention and rate limiting.
 __version__ = "0.1.0"
 __author__ = "Somiona"
 __email__ = "somionat@gmail.com"
-
-default_app_config = "django_cap.apps.DjangoCapConfig"

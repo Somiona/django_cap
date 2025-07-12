@@ -7,7 +7,7 @@ from datetime import timedelta
 from cryptography.hazmat.primitives import hashes
 from django.utils import timezone
 
-from .utils import (
+from django_cap.cap_core.utils import (
     CapConfig,
     ChallengeItem,
     ChallengeType,
