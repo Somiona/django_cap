@@ -1,6 +1,6 @@
 [project]
 name = "django-cap"
-version = "0.1.1"
+version = "0.2.0"
 description = "Django implementation of Cap.js Server for Proof of Work captcha"
 authors = [{ name = "Somiona", email = "somionat@gmail.com" }]
 readme = "README.md"
@@ -85,6 +85,7 @@ migrate = "uv run manage.py migrate"
 createsuperuser = "uv run manage.py createsuperuser"
 shell = "uv run manage.py shell"
 coverage = "uv run pytest --cov --cov-report json"
+twine = "uv run twine check dist/*.whl dist/*.tar.gz"
 
 [tool.pdm.build]
 includes = ["django_cap"]

@@ -23,7 +23,7 @@ Or if you want to use the Django Rest Framework integration, you can install it 
 pip install django-cap[drf]
 ```
 
-Note that currently, only ninja integration and vanilla Django Json views are implemented, DRF integration will be added shortly.
+**TODO**: only ninja integration and vanilla Django Json views are implemented, DRF integration will be added in the future.
 
 ### Configuration
 To use this package, you need to add `django_cap` to your `INSTALLED_APPS` in your Django settings file:
@@ -37,10 +37,14 @@ INSTALLED_APPS = [
 
 You need to configure the url patterns in your Django project's `urls.py` file:
 ```python
+from django_cap.example_views import urls as example_views_urls
+# import examples if you want to see them
+
 
 urlpatterns = [
     ...
     path("cap/", include("django_cap.urls")),
+    path("cap/examples/", include(example_views_urls)), # add this if you want to see examples
     ...
 ]
 ```
@@ -59,24 +63,41 @@ CAP_NINJA_API_ENABLE_DOCS = False
 ...
 ```
 
-### Use with Django Templates
-This package also provides a custom template tag to render the captcha widget in your Django templates. You can use it as follows:
-```django html
-{% load django_cap %}
-<head>
-    ...
-    <!-- Load the CAP widget script using template tag -->
-    {% cap_widget_script %}
-    ...
-</head>
-<body>
-    ...
-    <!-- Render the CAP widget -->
-    {% cap_widget %}
-    ...
-</body>
+### Use with Django Templates and Forms
+
+This package provides comprehensive Django form integration for CAP verification. You can easily add CAP verification to any Django form:
+
+#### Basic Form Integration
+
+1. Add `CapField` to your form:
+
+```python
+from django import forms
+from django_cap.forms import CapField
+class MyForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    # Add CapField for CAP verification
+    cap_token = CapField(help_text="Please retry the verification challenge.")
 ```
-**TODO**: token validation procedure for Django templates is not implemented yet, currently we only provide the widget rendering. Help welcome if you are familiar with Django templates.
+
+2. In your template, render the form as usual:
+
+```html
+<form method="post">
+    {% csrf_token %}
+    {{ form.name.label_tag }} {{ form.name }}
+    {{ form.email.label_tag }} {{ form.email }}
+    {{ form.cap_token.label_tag }} {{ form.cap_token }}
+    {% if form.cap_token.errors %}
+    <div class="form-errors">
+        {% for error in form.cap_token.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+    {% endif %}
+    <button type="submit">Submit</button>
+</form>
+```
+That's it! The `CapField` will automatically handle the CAP verification process, including generating the challenge and validating the response.
 
 ### Configuration Options
 - `CAP_NINJA_API_ENABLE_DOCS`: Enable or disable the ninja API docs. Default is `True`.

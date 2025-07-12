@@ -1,0 +1,117 @@
+{% extends "cap/examples/base.html" %}
+
+{% block title %}
+    Contact Form - CAP Examples
+{% endblock title %}
+
+{% block meta_description %}
+    Contact form with CAP verification example
+{% endblock meta_description %}
+
+{% block content %}
+    <div class="cap-form-card">
+        <h1>Contact Form</h1>
+        <p class="lead">Please fill out the form below and complete the verification to send us a message.</p>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-field">
+                        <label for="{{ form.name.id_for_label }}">
+                            {{ form.name.label }}
+                            {% if form.name.field.required %}<span class="required">*</span>{% endif %}
+                        </label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="form-errors">
+                                {% for error in form.name.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-field">
+                        <label for="{{ form.email.id_for_label }}">
+                            {{ form.email.label }}
+                            {% if form.email.field.required %}<span class="required">*</span>{% endif %}
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="form-errors">
+                                {% for error in form.email.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.subject.id_for_label }}">
+                    {{ form.subject.label }}
+                    {% if form.subject.field.required %}<span class="required">*</span>{% endif %}
+                </label>
+                {{ form.subject }}
+                {% if form.subject.errors %}
+                    <div class="form-errors">
+                        {% for error in form.subject.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-field">
+                <label for="{{ form.message.id_for_label }}">
+                    {{ form.message.label }}
+                    {% if form.message.field.required %}<span class="required">*</span>{% endif %}
+                </label>
+                {{ form.message }}
+                {% if form.message.errors %}
+                    <div class="form-errors">
+                        {% for error in form.message.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- CAP verification section -->
+            <div class="cap-verification-section">
+                <h3>🔐 Verification Required</h3>
+                <p>Please complete the proof-of-work challenge below to verify you're not a bot:</p>
+                {{ form.cap_token.label_tag }} {{ form.cap_token }}
+                {% if form.cap_token.errors %}
+                    <div class="form-errors">
+                        {% for error in form.cap_token.errors %}<div class="error">{{ error }}</div>{% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="submit" class="btn btn-cap-primary">
+                    <i class="bi bi-send"></i> Send Message
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="mt-4">
+        <h2>How It Works</h2>
+        <div class="accordion" id="capExplanation">
+            <div class="accordion-item">
+                <h3 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne">What is CAP (Proof of Work)?</button>
+                </h3>
+                <div id="collapseOne"
+                     class="accordion-collapse collapse"
+                     data-bs-parent="#capExplanation">
+                    <div class="accordion-body">
+                        CAP is a client-side proof-of-work system that requires users to perform computational work before submitting forms. This helps prevent spam and abuse while maintaining privacy. Thanks to the work done by <a href="https://capjs.js.org">CapJS</a>, the verification process is efficient and user-friendly.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

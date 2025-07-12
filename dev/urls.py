@@ -19,9 +19,12 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
+from django_cap.example_views import urls as example_views_urls
+
 urlpatterns = [
     path("cap/", include("django_cap.urls")),
     path("admin/", admin.site.urls),
+    path("cap/examples/", include(example_views_urls)),
 ]
 
 if settings.DEBUG and not settings.TESTING:

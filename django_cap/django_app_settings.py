@@ -3,19 +3,19 @@ from django.apps import apps
 DJANGO_APP_SETTINGS_PREFIX = "CAP_"
 
 __all__ = [
-    "SITES_ENABLED",  # noqa: F822
-    "ENABLED",  # noqa: F822
-    "NINJA_API_ENABLED",  # noqa: F822
-    "NINJA_API_ENABLE_DOCS",  # noqa: F822
-    "DRF_API_ENABLED",  # noqa: F822
-    "UNFOLD_ADMIN_ENABLED",  # noqa: F822
-    "WIDGET_URL",  # noqa: F822
-    "CHALLENGE_COUNT",  # noqa: F822
-    "CHALLENGE_SIZE",  # noqa: F822
-    "CHALLENGE_DIFFICULTY",  # noqa: F822
-    "CHALLENGE_EXPIRES_S",  # noqa: F822
-    "TOKEN_EXPIRES_S",  # noqa: F822
-    "CLEANUP_INTERVAL_S",  # noqa: F822
+    "SITES_ENABLED",  # noqa: F822 # type: ignore
+    "ENABLED",  # noqa: F822 # type: ignore
+    "NINJA_API_ENABLED",  # noqa: F822 # type: ignore
+    "NINJA_API_ENABLE_DOCS",  # noqa: F822 # type: ignore
+    "DRF_API_ENABLED",  # noqa: F822 # type: ignore
+    "UNFOLD_ADMIN_ENABLED",  # noqa: F822 # type: ignore
+    "WIDGET_URL",  # noqa: F822 # type: ignore
+    "CHALLENGE_COUNT",  # noqa: F822 # type: ignore
+    "CHALLENGE_SIZE",  # noqa: F822 # type: ignore
+    "CHALLENGE_DIFFICULTY",  # noqa: F822 # type: ignore
+    "CHALLENGE_EXPIRES_S",  # noqa: F822 # type: ignore
+    "TOKEN_EXPIRES_S",  # noqa: F822 # type: ignore
+    "CLEANUP_INTERVAL_S",  # noqa: F822 # type: ignore
 ]
 
 

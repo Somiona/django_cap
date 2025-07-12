@@ -1,0 +1,106 @@
+{% load django_cap %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="description"
+              content="Demo page for the CAP Widget using Django template tags." />
+        <meta name="keywords" content="CAP, Widget, Django, Template Tags, Demo" />
+        <title>CAP Widget Demo - Using Template Tags</title>
+        <!-- Load the CAP widget script using template tag -->
+        {% cap_widget_script %}
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .code-example {
+                background-color: #f5f5f5;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+                font-family: monospace;
+            }
+
+            .example-section {
+                margin-top: 40px;
+                text-align: center;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #007bff;
+                color: white;
+                padding: 12px 24px;
+                text-decoration: none;
+                border-radius: 5px;
+                font-weight: bold;
+            }
+
+            .btn:hover {
+                background-color: #0056b3;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>CAP Widget Demo</h1>
+        <!-- Basic widget -->
+        <h2>Basic Widget</h2>
+        {% cap_widget %}
+        <div class="code-example">
+            <strong>Template Code:</strong>
+            <br>
+            <code>
+                {% verbatim %}
+                    {% cap_widget %}
+                {% endverbatim %}
+            </code>
+        </div>
+        <!-- Widget with custom ID and endpoint -->
+        <h2>Custom Widget ID</h2>
+        {% cap_widget widget_id="custom-cap" api_endpoint="/cap/v1/" %}
+        <div class="code-example">
+            <strong>Template Code:</strong>
+            <br>
+            <code>
+                {% verbatim %}
+                    {% cap_widget widget_id="custom-cap" api_endpoint="/cap/v1/" %}
+                {% endverbatim %}
+            </code>
+        </div>
+        <!-- Widget with custom handler function -->
+        <h2>Widget with Custom Handler</h2>
+        {% cap_widget widget_id="cap-custom-handler" handler_function="myCustomCapHandler" %}
+        <div class="code-example">
+            <strong>Template Code:</strong>
+            <br>
+            <code>
+                {% verbatim %}
+                    {% cap_widget widget_id="cap-custom-handler" handler_function="myCustomCapHandler" %}
+                {% endverbatim %}
+            </code>
+        </div>
+        <script>
+            // Custom handler function for the last widget
+            function myCustomCapHandler(token, event) {
+                console.log("Custom handler called!");
+                console.log("Token:", token);
+                console.log("Full event:", event);
+
+                // You can add your custom logic here
+                alert("CAP solved! Token: " + token.substring(0, 20) + "...");
+            }
+        </script>
+        <!-- Real-life example link -->
+        <div class="example-section">
+            <h2>Real-life Example</h2>
+            <p>See the CAP widget in action with a real contact form:</p>
+            <a href="{% url 'cap_contact' %}" class="btn">View Contact Form Example</a>
+        </div>
+    </body>
+</html>
