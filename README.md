@@ -1,6 +1,7 @@
 [![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)](https://github.com/somiona/django_cap/actions/workflows/test.yml)
 [![cov](https://somiona.github.io/django_cap/badges/coverage.svg)](https://github.com/somiona/django_cap/actions)
-
+[![release](https://img.shields.io/github/v/release/somiona/django_cap)](https://github.com/Somiona/django_cap/releases)
+[![downloads](https://img.shields.io/pypi/dm/https%3A%2F%2Fpypi.org%2Fproject%2Fdjango_cap%2F)](https://pypi.org/project/django_cap/)
 ## Django Cap
 This is a implementation of Cap.js Server for Django, which provides challenge generation and verification for PoW (Proof of Work) captcha.
 
