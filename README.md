@@ -1,3 +1,5 @@
+![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)
+
 ## Django Cap
 This is a implementation of Cap.js Server for Django, which provides challenge generation and verification for PoW (Proof of Work) captcha.
 
