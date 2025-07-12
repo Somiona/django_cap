@@ -37,4 +37,32 @@ jobs:
 
       - name: Run tests
         run: |
+          pdm test
+
+  update_cov:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - name: Set up Python 3.11
+        run: |
+          uv python install 3.11
+          uv sync
+          uv add django~=5.0
+
+      - name: Update coverage
+        run: |
+          uv sync
           pdm coverage
+
+      - name: Update Coverage Badge
+        # GitHub actions: default branch variable
+        # https://stackoverflow.com/questions/64781462/github-actions-default-branch-variable
+        if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: we-cli/coverage-badge-action@main
