@@ -1,6 +1,6 @@
 [project]
 name = "django-cap"
-version = "0.1.0"
+version = "0.1.1"
 description = "Django implementation of Cap.js Server for Proof of Work captcha"
 authors = [{ name = "Somiona", email = "somionat@gmail.com" }]
 readme = "README.md"
