@@ -1,7 +1,7 @@
 [![django_cap_tests](https://github.com/somiona/django_cap/actions/workflows/test.yml/badge.svg)](https://github.com/somiona/django_cap/actions/workflows/test.yml)
 [![cov](https://somiona.github.io/django_cap/badges/coverage.svg)](https://github.com/somiona/django_cap/actions)
 [![release](https://img.shields.io/github/v/tag/somiona/django_cap?label=version)](https://github.com/Somiona/django_cap/releases)
-[![downloads](https://img.shields.io/pypi/dm/django-cap)](https://pypi.org/project/django_cap/)
+[![downloads](https://img.shields.io/pypi/dm/django-cap)](https://pypi.org/project/django-cap/)
 [![PyPI - Status](https://img.shields.io/pypi/status/django-cap)](https://pypi.org/project/django-cap/)
 ## Django Cap
 This is a implementation of [Cap.js](https://capjs.js.org/) Server for Django, which provides challenge generation and verification for PoW (Proof of Work) captcha. See
@@ -44,7 +44,7 @@ from django_cap.example_views import urls as example_views_urls
 urlpatterns = [
     ...
     path("cap/", include("django_cap.urls")),
-    path("cap/examples/", include(example_views_urls)), # add this if you want to see examples
+    path("cap/examples/", include("django_cap.example.urls")),, # add this if you want to see examples
     ...
 ]
 ```
