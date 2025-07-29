@@ -335,7 +335,7 @@ wheels = [
 
 [[package]]
 name = "django-cap"
-version = "0.2.1"
+version = "0.3.0"
 source = { editable = "." }
 dependencies = [
     { name = "cryptography" },
@@ -361,7 +361,6 @@ dev = [
     { name = "djlint" },
     { name = "pdm" },
     { name = "pre-commit" },
-    { name = "pytest-cov" },
     { name = "ruff" },
     { name = "timeit-decorator" },
     { name = "twine" },
@@ -377,6 +376,7 @@ test = [
     { name = "pytest" },
     { name = "pytest-asyncio" },
     { name = "pytest-benchmark" },
+    { name = "pytest-cov" },
     { name = "pytest-django" },
 ]
 
@@ -398,7 +398,6 @@ dev = [
     { name = "djlint", specifier = ">=1.36" },
     { name = "pdm", specifier = ">=2.25.4" },
     { name = "pre-commit", specifier = ">=4.2.0" },
-    { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "ruff", specifier = ">=0.12.4" },
     { name = "timeit-decorator", specifier = ">=2.1.2" },
     { name = "twine", specifier = ">=6.1.0" },
@@ -414,6 +413,7 @@ test = [
     { name = "pytest", specifier = ">=8.4.1" },
     { name = "pytest-asyncio", specifier = ">=1.0.0" },
     { name = "pytest-benchmark", specifier = ">=5.1.0" },
+    { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "pytest-django", specifier = ">=4.11.1" },
 ]
 

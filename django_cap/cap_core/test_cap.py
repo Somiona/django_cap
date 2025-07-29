@@ -128,34 +128,31 @@ challenge_data = [
 ]
 
 
-@pytest.mark.asyncio
-async def test_solver(capsys: CaptureFixture[str]):
+def test_solver(capsys: CaptureFixture[str]):
     timer = time.time()
-    results, results_hash = await solve(challenge_data)
+    results = solve(challenge_data)
     elapsed = time.time() - timer
     with capsys.disabled():
         print(f"Elapsed time: {elapsed:.2f} seconds, Solved {len(results)} challenges")
     assert len(results) != 0
 
 
-@pytest.mark.asyncio
-async def test_generate_challenge(capsys: CaptureFixture[str]):
+def test_generate_challenge(capsys: CaptureFixture[str]):
     timer = time.time()
     challenge = "test_token"
     config = ChallengeType(count=10, size=32, difficulty=4)
-    results, results_hash = await solve(challenge, config)
+    results = solve(challenge, config)
     elapsed = time.time() - timer
     with capsys.disabled():
         print(f"Elapsed time: {elapsed:.2f} seconds, Solved {len(results)} challenges")
     assert len(results) != 0
 
 
-@pytest.mark.asyncio
-async def test_check_answer(capsys: CaptureFixture[str]):
+def test_check_answer(capsys: CaptureFixture[str]):
     timer = time.time()
     challenge = "test_token"
     config = ChallengeType(count=10, size=32, difficulty=4)
-    results, results_hash = await solve(challenge, config)
+    results = solve(challenge, config)
     challenges = Cap.generate_challenge_from_token(challenge, config)
     is_valid = Cap.check_answer(challenges, results)
     elapsed = time.time() - timer
@@ -211,7 +208,7 @@ async def test_redeem_challenge(capsys: CaptureFixture[str]):
     assert challenge_item.token in data_source.challenges
 
     # Solve the challenge
-    results, results_hash = await solve(challenge_item.token, cap.challenge)
+    results = solve(challenge_item.token, cap.challenge)
 
     # Redeem the challenge
     solution = Solution(token=challenge_item.token, solutions=results)
@@ -252,36 +249,36 @@ async def test_redeem_invalid_solution(capsys: CaptureFixture[str]):
     assert redeem_result.expires is None
 
 
-# @pytest.mark.asyncio
-# @pytest.mark.benchmark
-# async def test_challenge_answer_check_speed(benchmark, capsys: CaptureFixture[str]):
-#     data_source = MemoryDataSource()
-#     cap_config: CapConfig = CapConfig(50, 32, 4, 60, 60)
-#     cap = Cap(cap_config, data_source)
+@pytest.mark.asyncio
+@pytest.mark.benchmark
+async def test_challenge_answer_check_speed(benchmark, capsys: CaptureFixture[str]):
+    data_source = MemoryDataSource()
+    cap_config: CapConfig = CapConfig(50, 32, 4, 60, 60)
+    cap = Cap(cap_config, data_source)
 
-#     # Create a challenge
-#     challenge_item = await cap.create_challenge()
-#     assert challenge_item.token in data_source.challenges
+    # Create a challenge
+    challenge_item = await cap.create_challenge()
+    assert challenge_item.token in data_source.challenges
 
-#     # Solve the challenge
-#     timer = int(time.time() * 1e3)
-#     results, results_hash = await solve(challenge_item.token, cap.challenge)
-#     elapsed = int(time.time() * 1e3) - timer
-#     with capsys.disabled():
-#         print(
-#             f"Elapsed time: {elapsed:.2f} ms, "
-#             f"Solved and checked {len(results)} challenges"
-#         )
+    # Solve the challenge
+    timer = int(time.time() * 1e3)
+    results = solve(challenge_item.token, cap.challenge)
+    elapsed = int(time.time() * 1e3) - timer
+    with capsys.disabled():
+        print(
+            f"Elapsed time: {elapsed:.2f} ms, "
+            f"Solved and checked {len(results)} challenges"
+        )
 
-#     def redeem_challenge(results):
-#         challenges = Cap.generate_challenge_from_token(
-#             challenge_item.token, challenge_item.challenge
-#         )
+    def redeem_challenge(results):
+        challenges = Cap.generate_challenge_from_token(
+            challenge_item.token, challenge_item.challenge
+        )
 
-#         is_valid = Cap.check_answer(challenges, results)
-#         return is_valid
+        is_valid = Cap.check_answer(challenges, results)
+        return is_valid
 
-#     benchmark(
-#         redeem_challenge,
-#         results,
-#     )
+    benchmark(
+        redeem_challenge,
+        results,
+    )

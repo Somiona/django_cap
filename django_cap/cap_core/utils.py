@@ -112,7 +112,7 @@ class DataSource(ABC):
         pass
 
 
-def prng(seed: str, length: int) -> str:
+def py_prng(seed: str, length: int) -> str:
     def fnv1a(s: str) -> int:
         hash = 2166136261
         for ch in s:
@@ -136,3 +136,15 @@ def prng(seed: str, length: int) -> str:
         result += f"{rnd:08x}"
 
     return result[:length]
+
+
+try:
+    from ._cap_rust import rust_prng
+
+    prng = rust_prng
+
+    RUST_AVAILABLE = True
+except ImportError:
+    prng = py_prng
+
+    RUST_AVAILABLE = False

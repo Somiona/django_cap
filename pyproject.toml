@@ -1,6 +1,6 @@
 [project]
 name = "django-cap"
-version = "0.2.1"
+version = "0.3.0"
 description = "Django implementation of Cap.js Server for Proof of Work captcha"
 authors = [{ name = "Somiona", email = "somionat@gmail.com" }]
 readme = "README.md"
@@ -57,18 +57,22 @@ dev = [
     "django-cors-headers>=4.7.0",
     "pdm>=2.25.4",
     "pre-commit>=4.2.0",
-    "pytest-cov>=6.2.1",
 ]
 test = [
     "pytest>=8.4.1",
     "pytest-asyncio>=1.0.0",
     "pytest-benchmark>=5.1.0",
     "pytest-django>=4.11.1",
+    "pytest-cov>=6.2.1",
 ]
 
+# [build-system]
+# requires = ["pdm-backend"]
+# build-backend = "pdm.backend"
+
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["maturin>=1.9,<2.0"]
+build-backend = "maturin"
 
 [tool.uv]
 default-groups = ["dev", "test", "optional"]
@@ -80,7 +84,9 @@ lint-fix = "uv run ruff check --fix"
 format = "uv run ruff format"
 type-check = "uv run ty check"
 test = "uv run pytest"
-dev = "uv run manage.py runserver"
+start = "uv run manage.py runserver"
+dev = "uv run maturin develop -r"
+dev-debug = "uv run maturin develop"
 migrate = "uv run manage.py migrate"
 createsuperuser = "uv run manage.py createsuperuser"
 shell = "uv run manage.py shell"
@@ -96,6 +102,31 @@ excludes = [
     "**/test_*.py",
     "**/tests.py",
     "**/tests/**",
+]
+
+[tool.maturin]
+include = [
+    "django_cap/**/*.py",      # Include all Python files in django_cap
+    "django_cap/templates/**", # Include templates
+]
+python-source = "."
+module-name = "django_cap.cap_core._cap_rust"
+features = ["pyo3/extension-module"]
+exclude = [
+    "**/__pycache__/**",
+    "**/*.pyc",
+    "**/*.pyo",
+    "**/test_*.py",
+    "**/tests.py",
+    "**/tests/**",
+    "dev/**",
+    "settings/**",
+    "*.sqlite3",
+    "manage.py",
+    "maturin_generated_ci.yml",
+    "RELEASE_CHECKLIST.md",
+    "validate_dev_tools.py",
+    "uv.lock",
 ]
 
 [tool.ty.environment]

@@ -1,13 +1,12 @@
-import asyncio
 import hashlib
 
 from django_cap.cap_core.cap import Cap
 from django_cap.cap_core.utils import ChallengeType
 
 
-async def solve(
+def solve(
     challenge: str | list[list[str]], config: ChallengeType | None = None
-) -> tuple[list[int], list[str]]:
+) -> list[int]:
     """
     Solve CAP challenges using proof-of-work algorithm.
 
@@ -29,14 +28,12 @@ async def solve(
     else:
         raise ValueError("Invalid challenge format, must be str or list")
 
-    tasks = [solve_pow(salt, target) for salt, target in challenges]
-    results = await asyncio.gather(*tasks)
-    results, results_hash = list(zip(*results, strict=False))
+    results = [solve_pow(salt, target) for salt, target in challenges]
 
-    return list(results), list(results_hash)
+    return results
 
 
-async def solve_pow(salt: str, target: str) -> tuple[int, str]:
+def py_solve_pow(salt: str, target: str) -> int:
     """
     Solve a single proof-of-work challenge.
 
@@ -56,6 +53,15 @@ async def solve_pow(salt: str, target: str) -> tuple[int, str]:
 
         # Check if hash starts with target
         if hash_result.startswith(target):
-            return nonce, hash_result
+            return nonce
 
     raise RuntimeError("Solution not found within u64 range")
+
+
+try:
+    from ._cap_rust import rust_solve_pow
+
+    # Why this is slower than python implementation??
+    solve_pow = rust_solve_pow
+except ImportError:
+    solve_pow = py_solve_pow

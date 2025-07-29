@@ -14,8 +14,52 @@ from django_cap.cap_core.utils import (
     DataSource,
     RedeemResult,
     Solution,
-    prng,
+    py_prng,
 )
+
+
+def _py_generate_challenge_from_token(
+    token: str, count: int, size: int, difficulty: int
+) -> list[tuple[str, str]]:
+    # Generate challenges deterministically from token
+    challenges: list[tuple[str, str]] = []
+    for i in range(1, count + 1):
+        # SEE https://github.com/tiagorangel1/cap/blob/8580f67f9b90b1f994cffb83de96357825266ae4/solver/index.js#L69
+        # they start from 1, not 0
+        salt = py_prng(f"{token}{i}", size)
+        target = py_prng(f"{token}{i}d", difficulty)
+        challenges.append((salt, target))
+    return challenges
+
+
+def _py_check_answer(challenges: list[tuple[str, str]], solutions: list[int]) -> bool:
+    # Validate solutions
+    is_valid = True
+    for idx, (salt, target) in enumerate(challenges):
+        if idx >= len(solutions):
+            is_valid = False
+            break
+
+        solution_nonce = solutions[idx]
+        digest = hashes.Hash(hashes.SHA256())
+        digest.update((salt + str(solution_nonce)).encode())
+        hash_result = digest.finalize().hex()
+
+        if not hash_result.startswith(target):
+            is_valid = False
+            break
+    return is_valid
+
+
+try:
+    from ._cap_rust import rust_check_answer, rust_generate_challenge_from_token
+
+    _generate_challenge_from_token = rust_generate_challenge_from_token
+    _check_answer = rust_check_answer
+except ImportError:
+    # Fallback to Python implementation if Rust is not available
+    _generate_challenge_from_token = _py_generate_challenge_from_token
+    _check_answer = _py_check_answer
 
 
 class Cap:
@@ -47,34 +91,13 @@ class Cap:
     def generate_challenge_from_token(
         token: str, challenge: ChallengeType
     ) -> list[tuple[str, str]]:
-        # Generate challenges deterministically from token
-        challenges: list[tuple[str, str]] = []
-        for i in range(1, challenge.count + 1):
-            # SEE https://github.com/tiagorangel1/cap/blob/8580f67f9b90b1f994cffb83de96357825266ae4/solver/index.js#L69
-            # they start from 1, not 0
-            salt = prng(f"{token}{i}", challenge.size)
-            target = prng(f"{token}{i}d", challenge.difficulty)
-            challenges.append((salt, target))
-        return challenges
+        return _generate_challenge_from_token(
+            token, challenge.count, challenge.size, challenge.difficulty
+        )
 
     @staticmethod
     def check_answer(challenges: list[tuple[str, str]], solutions: list[int]) -> bool:
-        # Validate solutions
-        is_valid = True
-        for idx, (salt, target) in enumerate(challenges):
-            if idx >= len(solutions):
-                is_valid = False
-                break
-
-            solution_nonce = solutions[idx]
-            digest = hashes.Hash(hashes.SHA256())
-            digest.update((salt + str(solution_nonce)).encode())
-            hash_result = digest.finalize().hex()
-
-            if not hash_result.startswith(target):
-                is_valid = False
-                break
-        return is_valid
+        return _check_answer(challenges, solutions)
 
     async def redeem_challenge(self, solution: Solution) -> RedeemResult:
         """
@@ -107,11 +130,14 @@ class Cap:
                 message="Challenge not found or expired",
             )
 
-        challenges = Cap.generate_challenge_from_token(
-            challenge_item.token, challenge_item.challenge
+        challenges = _generate_challenge_from_token(
+            challenge_item.token,
+            challenge_item.challenge.count,
+            challenge_item.challenge.size,
+            challenge_item.challenge.difficulty,
         )
 
-        is_valid = Cap.check_answer(challenges, solutions)
+        is_valid = _check_answer(challenges, solutions)
 
         if not is_valid:
             return RedeemResult(
