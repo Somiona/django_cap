@@ -16,14 +16,13 @@ jobs:
         platform:
           - os: ubuntu-22.04
             arch: x64
+            rust-target: ""
           - os: windows-latest
             arch: x64
-          - os: windows-latest
-            arch: x86
-          - os: macos-13 # Intel
-            arch: x64
-          - os: macos-14 # Apple Silicon
+            rust-target: ""
+          - os: macos-14
             arch: arm64
+            rust-target: ""
 
     runs-on: ${{ matrix.platform.os }}
     steps:
@@ -42,6 +41,8 @@ jobs:
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform.rust-target }}
 
       - name: Cache uv dependencies
         uses: actions/cache@v4
@@ -49,11 +50,11 @@ jobs:
           path: |
             ~/.cache/uv
             .venv
-          key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.django-version }}-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          key: uv-${{ runner.os }}-${{ matrix.platform.arch }}-${{ matrix.python-version }}-${{ matrix.django-version }}-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
           restore-keys: |
-            uv-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.django-version }}-
-            uv-${{ runner.os }}-${{ matrix.python-version }}-
-            uv-${{ runner.os }}-
+            uv-${{ runner.os }}-${{ matrix.platform.arch }}-${{ matrix.python-version }}-${{ matrix.django-version }}-
+            uv-${{ runner.os }}-${{ matrix.platform.arch }}-${{ matrix.python-version }}-
+            uv-${{ runner.os }}-${{ matrix.platform.arch }}-
 
       - name: Install dependencies
         run: |
@@ -86,8 +87,10 @@ jobs:
           version: "latest"
 
       - name: Set up Python 3.11
-        run: |
-          uv python install 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+          architecture: x64
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
@@ -98,7 +101,7 @@ jobs:
           path: |
             ~/.cache/uv
             .venv
-          key: uv-${{ runner.os }}-3.11-5.0-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          key: uv-${{ runner.os }}-x64-3.11-5.0-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
           restore-keys: |
             uv-${{ runner.os }}-3.11-5.0-
             uv-${{ runner.os }}-3.11-
