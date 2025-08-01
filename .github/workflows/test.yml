@@ -8,12 +8,36 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
         django-version: ["5.0", "5.1", "5.2"]
+        platform:
+          - os: ubuntu-22.04
+            arch: x64
+          - os: ubuntu-22.04
+            target: x86_64
+          - os: ubuntu-22.04
+            target: x86
+          - os: ubuntu-22.04
+            target: aarch64
+          - os: ubuntu-22.04
+            target: armv7
+          - os: ubuntu-22.04
+            target: s390x
+          - os: ubuntu-22.04
+            target: ppc64le
+          - os: windows-latest
+            arch: x64
+          - os: windows-latest
+            arch: x86
+          - os: macos-13 # Intel
+            arch: x64
+          - os: macos-14 # Apple Silicon
+            arch: arm64
 
+    runs-on: ${{ matrix.platform.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,7 +47,10 @@ jobs:
           version: "latest"
 
       - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.platform.arch }}
 
       - name: Install dependencies
         run: |
@@ -33,10 +60,11 @@ jobs:
       - name: Run linting
         run: |
           uv run ruff check
-          uv run ty check
+          uv run ruff format --check
 
       - name: Run tests
         run: |
+          uv run maturin develop -r
           uv run pytest
 
   update_cov:

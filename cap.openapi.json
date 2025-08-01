@@ -49,32 +49,6 @@
           "required": true
         }
       }
-    },
-    "/cap/v1/validate": {
-      "post": {
-        "operationId": "apps_django_cap_ninja_api_views_validate_token",
-        "summary": "Validate Token",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/ValidateResponse" }
-              }
-            }
-          }
-        },
-        "description": "Validate a token.\n\nCheck if a token is valid and optionally keep it for future use.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": { "$ref": "#/components/schemas/ValidateRequest" }
-            }
-          },
-          "required": true
-        }
-      }
     }
   },
   "components": {
@@ -124,25 +98,6 @@
         },
         "required": ["token", "solutions"],
         "title": "SolutionRequest",
-        "type": "object"
-      },
-      "ValidateResponse": {
-        "properties": { "success": { "title": "Success", "type": "boolean" } },
-        "required": ["success"],
-        "title": "ValidateResponse",
-        "type": "object"
-      },
-      "ValidateRequest": {
-        "properties": {
-          "token": { "title": "Token", "type": "string" },
-          "keepToken": {
-            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
-            "default": false,
-            "title": "Keeptoken"
-          }
-        },
-        "required": ["token"],
-        "title": "ValidateRequest",
         "type": "object"
       }
     }

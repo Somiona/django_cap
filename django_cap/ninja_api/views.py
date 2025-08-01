@@ -43,15 +43,6 @@ class RedeemResponse(Schema):
     expires: int | None = None  # in milliseconds
 
 
-class ValidateRequest(Schema):
-    token: str
-    keepToken: bool | None = False
-
-
-class ValidateResponse(Schema):
-    success: bool
-
-
 # API endpoints
 @cap_api.post("/challenge", response=ChallengeResponse)
 async def create_challenge(request: HttpRequest):
@@ -86,23 +77,6 @@ async def redeem_challenge(request: HttpRequest, payload: SolutionRequest):
             token=result.token,
             expires=int(result.expires.timestamp() * 1000) if result.expires else None,
         )
-
-    except Exception as e:
-        raise ValidationError([{"message": str(e)}]) from e
-
-
-@cap_api.post("/validate", response=ValidateResponse)
-async def validate_token(request: HttpRequest, payload: ValidateRequest):
-    """
-    Validate a token.
-
-    Check if a token is valid and optionally keep it for future use.
-    """
-    try:
-        keep_token = payload.keepToken or False
-        result = await django_cap.validate_token(payload.token, keep_token)
-
-        return ValidateResponse(success=result["success"])
 
     except Exception as e:
         raise ValidationError([{"message": str(e)}]) from e
