@@ -16,18 +16,6 @@ jobs:
         platform:
           - os: ubuntu-22.04
             arch: x64
-          - os: ubuntu-22.04
-            target: x86_64
-          - os: ubuntu-22.04
-            target: x86
-          - os: ubuntu-22.04
-            target: aarch64
-          - os: ubuntu-22.04
-            target: armv7
-          - os: ubuntu-22.04
-            target: s390x
-          - os: ubuntu-22.04
-            target: ppc64le
           - os: windows-latest
             arch: x64
           - os: windows-latest
@@ -52,10 +40,30 @@ jobs:
           python-version: ${{ matrix.python-version }}
           architecture: ${{ matrix.platform.arch }}
 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/uv
+            .venv
+          key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.django-version }}-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          restore-keys: |
+            uv-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.django-version }}-
+            uv-${{ runner.os }}-${{ matrix.python-version }}-
+            uv-${{ runner.os }}-
+
       - name: Install dependencies
         run: |
           uv sync
           uv add django~=${{ matrix.django-version }}
+          uv tool install maturin
+
+      - name: Build Rust extension
+        run: |
+          uv run maturin develop --release
 
       - name: Run linting
         run: |
@@ -64,7 +72,6 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run maturin develop -r
           uv run pytest
 
   update_cov:
@@ -81,8 +88,31 @@ jobs:
       - name: Set up Python 3.11
         run: |
           uv python install 3.11
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/uv
+            .venv
+          key: uv-${{ runner.os }}-3.11-5.0-${{ hashFiles('**/uv.lock', '**/pyproject.toml') }}
+          restore-keys: |
+            uv-${{ runner.os }}-3.11-5.0-
+            uv-${{ runner.os }}-3.11-
+            uv-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
           uv sync
           uv add django~=5.0
+          uv tool install maturin
+
+      - name: Build Rust extension
+        run: |
+          uv run maturin develop --release
 
       - name: Update coverage
         run: |
